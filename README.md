@@ -1,3 +1,7 @@
+# Fix for Kali Linux(2021)
+
+I fixed it to follow Penetration Testing with Kali Linux course.
+
 # Empire
 
 ## This project is no longer supported
