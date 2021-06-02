@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import sqlite3, os, string, hashlib, random
 
@@ -67,7 +67,7 @@ c = conn.cursor()
 c.execute('PRAGMA journal_mode = OFF')
 
 c.execute('DROP TABLE IF EXISTS config')
-c.execute('''CREATE TABLE config (
+c.execute('''CREATE TABLE IF NOT EXISTS config (
     "staging_key" text,
     "install_path" text,
     "ip_whitelist" text,
@@ -86,7 +86,7 @@ c.execute('''CREATE TABLE config (
 # kick off the config component of the database
 c.execute("INSERT INTO config VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (STAGING_KEY, INSTALL_PATH, IP_WHITELIST, IP_BLACKLIST, '', '', False, API_USERNAME, API_PASSWORD, '', API_PERMANENT_TOKEN, OBFUSCATE, OBFUSCATE_COMMAND))
 
-c.execute('''CREATE TABLE "agents" (
+c.execute('''CREATE TABLE IF NOT EXISTS "agents" (
     "id" integer PRIMARY KEY,
     "session_id" text,
     "listener" text,
@@ -121,7 +121,7 @@ c.execute('''CREATE TABLE "agents" (
 
 # the 'options' field contains a pickled version of all
 #   currently set listener options
-c.execute('''CREATE TABLE "listeners" (
+c.execute('''CREATE TABLE IF NOT EXISTS "listeners" (
     "id" integer PRIMARY KEY,
     "name" text,
     "module" text,
@@ -134,7 +134,7 @@ c.execute('''CREATE TABLE "listeners" (
 # type = hash, plaintext, token
 #   for krbtgt, the domain SID is stored in misc
 #   for tokens, the data is base64'ed and stored in pass
-c.execute('''CREATE TABLE "credentials" (
+c.execute('''CREATE TABLE IF NOT EXISTS "credentials" (
     "id" integer PRIMARY KEY,
     "credtype" text,
     "domain" text,
@@ -146,14 +146,14 @@ c.execute('''CREATE TABLE "credentials" (
     "notes" text
     )''')
 
-c.execute( '''CREATE TABLE "taskings" (
+c.execute( '''CREATE TABLE IF NOT EXISTS "taskings" (
     "id" integer,
     "data" text,
     "agent" text,
     PRIMARY KEY(id, agent)
 )''')
 
-c.execute( '''CREATE TABLE "results" (
+c.execute( '''CREATE TABLE IF NOT EXISTS "results" (
     "id" integer,
     "data" text,
     "agent" text,
@@ -161,7 +161,7 @@ c.execute( '''CREATE TABLE "results" (
 )''')
 
 # event_types -> checkin, task, result, rename
-c.execute('''CREATE TABLE "reporting" (
+c.execute('''CREATE TABLE IF NOT EXISTS "reporting" (
     "id" integer PRIMARY KEY,
     "name" text,
     "event_type" text,

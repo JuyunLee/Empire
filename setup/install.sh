@@ -138,11 +138,14 @@ else
 		sudo pip install -r requirements.txt 
 	elif lsb_release -d | grep -q "Kali"; then
 		Release=Kali
-		wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u7_amd64.deb
-		dpkg -i libssl1.0.0_1.0.1t-1+deb8u7_amd64.deb
+		sudo apt-get install -y python2 python2-dev
+		sudo curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+		sudo python2 get-pip.py
+		wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u8_amd64.deb
+		dpkg -i libssl1.0.0_1.0.1t-1+deb8u8_amd64.deb
 		sudo apt-get install -y make g++ python-dev python-m2crypto swig python-pip libxml2-dev default-jdk zlib1g-dev libssl1.0-dev build-essential libssl1.0-dev libxml2-dev zlib1g-dev
-		pip install --upgrade pip
-		sudo pip install -r requirements.txt 
+		pip2 install --upgrade pip2
+		sudo pip2 install -r requirements.txt 
 		install_powershell
 	elif lsb_release -d | grep -q "Ubuntu"; then
 		Release=Ubuntu
